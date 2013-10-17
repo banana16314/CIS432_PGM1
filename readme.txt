@@ -10,11 +10,14 @@ DESCRIPTION
     A bare-bones, multi-threaded web proxy with no exception handling or error checking.  
     
     - Assumes client input is always valid or correct.
-    - Assumes host is always 2nd line of HTTP request message
+    - Handles HTTP/1.1 and HTTP/1.0, GET, CONNECT
 
 THANKS/CREDITS
 	Python documentation
         - http://docs.python.org/2/howto/sockets.html
+        
+    Python tutorial on socket exceptions
+        - http://ilab.cs.byu.edu/python/socket/exceptions.html
 
 RELEVANT FILES
 	'proxy.py'  - contains web proxy program
