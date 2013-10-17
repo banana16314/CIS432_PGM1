@@ -51,11 +51,7 @@ def proxy_thread(clientSocket, clientAddress):
     getLine = request.split(os.linesep)[1]    #2nd line contains server (and port).
     print getLine
     
-    host = ''
-    if getLine[0] != 'G' and getLine[0] != 'F':   #checks to see if this line is really the GET or FROM header
-        host = request.split(os.linesep)[4].split(' ')[1] #this is a CONNECT request
-    else:
-        host = getLine.split(' ')[1]   #grab the host. ie: www.google.com
+    host = getLine.split(' ')[1]   #grab the host. ie: www.google.com
     print host
     
     port = 80    #set default port
