@@ -2,7 +2,8 @@
 
 """
     proxy.py: a bare-bones, multi-threaded web proxy with no exception handling or error checking.  
-    Assumes client input is always valid or correct.
+    - Assumes client input is always valid or correct.
+    - Assumes host is always 2nd line of HTTP request message
 
     Sze Yan Li
     CIS432
@@ -49,25 +50,31 @@ def proxy_thread(clientSocket, clientAddress):
     
     #get server and port from HTTP request
     getLine = request.split(os.linesep)[1]    #2nd line contains server (and port).
-    print getLine
+    #print getLine
     
-    host = getLine.split(' ')[1]   #grab the host. ie: www.google.com
-    print host
+    hostName = getLine.split(' ')[1]   #grab the host name. ie: www.google.com
+    hostName = hostName.strip()
+    hostAddress = socket.gethostbyname(hostName)
+    print hostName, hostAddress
     
     port = 80    #set default port
-    s = host.split(':') 
+    s = hostName.split(':') 
     if len(s) > 1:    #TODO test this. array should contain 2 elements if there is a special port specified
         port = s[1]
-    print port
-        
+        port = port.strip()
+    #print port
+    
     #create a socket, connect, and send request to server 
     serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serverSocket.connect((host, port)) 
+    serverSocket.connect((hostAddress, port))
+    #serverSocket = socket.create_connection((hostName, port))    #use create_connection to create a TCP socket because hostName can be non-numeric  
+    print 'Re-directing request to: ',hostName, hostAddress
     serverSocket.send(request)
-    
+
     #receive and send response back to client
     response = serverSocket.recv(RECV_SIZE)
     clientSocket.send(response)
+    print 'Sent request to client'
     
     #close sockets
     serverSocket.close()

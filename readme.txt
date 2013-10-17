@@ -8,7 +8,9 @@ AUTHOR
 
 DESCRIPTION
     A bare-bones, multi-threaded web proxy with no exception handling or error checking.  
-    Assumes client input is always valid or correct.
+    
+    - Assumes client input is always valid or correct.
+    - Assumes host is always 2nd line of HTTP request message
 
 THANKS/CREDITS
 	Python documentation
