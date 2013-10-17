@@ -1,0 +1,72 @@
+ tutorials:
+ http://justcheckingonall.wordpress.com/2009/01/10/simple-makefile-generator/
+ http://luugiathuy.com/2011/03/simple-web-proxy-python/
+ https://github.com/luugiathuy/WebProxyPython/blob/master/proxy.py
+ http://docs.python.org/2/howto/sockets.html
+ 
+ http://cs.baylor.edu/~donahoo/practical/CSockets/practical/
+ http://stackoverflow.com/questions/18896465/simple-web-proxy-in-java
+ 
+ proxy settings:
+ http://answers.oreilly.com/topic/675-how-to-configure-proxy-settings-in-windows-7/
+ 
+ ports:
+ http://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
+ http://stackoverflow.com/questions/113224/what-is-the-largest-tcp-ip-network-port-number-allowable-for-ipv4
+ 
+ python style guide:
+ http://www.python.org/dev/peps/pep-0008/
+ http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
+ http://stackoverflow.com/questions/1523427/python-what-is-the-common-header-format/1523621#1523621
+ 
+ http://stackoverflow.com/questions/419163/what-does-if-name-main-do
+ =========================
+ Assignment 4: Multi-Threaded Web Proxy
+	In this assignment, you will develop a Web proxy. When your proxy receives an
+	HTTP request for an object from a browser, it generates a new HTTP request for
+	the same object and sends it to the origin server. When the proxy receives the
+	corresponding HTTP response with the object from the origin server, it creates a
+	new HTTP response, including the object, and sends it to the client. This proxy
+	will be multi-threaded, so that it will be able to handle multiple requests at the
+	same time.
+	For this assignment, the companion Web site provides the skeleton code for the
+	proxy server. Your job is to complete the code, and then test it by having different
+	browsers request Web objects via your proxy.
+
+    -no caching
+    -just relay the request from the client to the server and straight back.
+    -no conditional get because there's no cache
+    -proxy the relays request and responses. 
+    -any language preferred
+    -make a makefile to just run it
+    
+    Page 180 of textbook, Assignment 1: Multi-Threaded Web Proxy.
+
+    Due Oct. 25, Friday, 11:59 PM.
+
+    [How to submit]
+    CIS 432 students: email  <javid@cs.uoregon.edu>, with the subject "CIS 432: Program 1 Submission".
+    CIS 532 students: email <javid@cs.uoregon.edu>, with the subject "CIS 532: Program 1 Submission".
+
+    [What to submit]  You need to submit your source code and a README file describing
+                   how to compile and run it on ix.cs.uoregon.edu.  Then your program
+                   will be tested on ix.  Make sure you README is easy to follow but
+                   not too verbose/tedious.
+
+    Alternative Option:
+
+    You can choose to work on a single class project, instead of working on both program assignments 1 & 2 (Program 2 will be announced later). You then must work on a particular problem, and write a class project report (6 pages at 11 pt font).  This usually means a more challenging workload, with a tradeoff of more fun.  If you are interested, talk or email to me, then we can spell out more details.
+    
+    -specify port as args?
+        
+    -you'll manually set browser? (localhost; port whatever is in the readme?)
+        -yes
+    -any kind of error checking? try/catch errors when attempting to make sockets? 
+        -make the barebones version
+    -assuming valid http requests? like valid urls?
+        -assume all requests are valid
+    -assuming http request is port 80? what is the format if it's to a special port?
+    -max q and max buffer size?
+    
+    
+    
