@@ -4,6 +4,7 @@
     proxy.py: a bare-bones, multi-threaded web proxy with no exception handling or error checking.  
     - Assumes client input is always valid or correct.
     - Assumes host is always 2nd line of HTTP request message
+    - Handles HTTP/1.1 and HTTP/1.0, GET, CONNECT
 
     Sze Yan Li
     CIS432
@@ -43,50 +44,46 @@ def main():
 
 # ------ PROXY THREAD
 def proxy_thread(clientSocket, clientAddress):
-    try:
-        
-        #get HTTP request
-        request = clientSocket.recv(RECV_SIZE)
-        print '------\n',request
-        
-        #get server and port from HTTP request
-        getLine = request.split(os.linesep)[1]    #2nd line contains server (and port).
-        #print getLine
-        
-        #TODO check method? or GET only is CONNECT?
-        hostName = getLine.split(' ')[1]   #grab the host name. ie: www.google.com
-        hostName = hostName.strip()
-        #print hostName
-        
-        port = 80    #set default port
-        s = hostName.split(':') 
-        if len(s) > 1:    #TODO test this. array should contain 2 elements if there is a special port specified
-            port = s[1]
-            port = port.strip()
-        #print port
-        
-        #create a socket, connect, and send request to server 
-        serverSocket = socket.create_connection((hostName, port))    #use create_connection to create a TCP socket because hostName can be non-numeric  
-        serverSocket.send(request)
-        #print 'Re-directing request to:',hostName
+    
+    #get HTTP request
+    request = clientSocket.recv(RECV_SIZE)
+    print '------\n',request
+    
+    #obtain hostname from either GET or CONNECT line
+    hostName = ''
+    for line in request.split('\n'):
+        #DEBUG print 'Printing header: ',line[0:4],'*'
+        if line[0:4] == 'Host' or line[0:4] == 'From':
+            hostName = line.split(' ')
+           #DEBUG print 'Printing host name: ',hostName
+            break
+    
+    
+    port = 80    #set default port
+    s = hostName.split(':') 
+    if len(s) > 1:    #TODO test this. array should contain 2 elements if there is a special port specified
+        port = s[1]
+        port = port.strip()
+    #print port
+    
+    #create a socket, connect, and send request to server 
+    serverSocket = socket.create_connection((hostName, port))    #use create_connection to create a TCP socket because hostName can be non-numeric  
+    serverSocket.send(request)
+    #print 'Re-directing request to:',hostName
 
-        #wait and receive response. Then send response back to client
-        while 1:
-            response = serverSocket.recv(RECV_SIZE)
-            if(len(response) > 0):
-                clientSocket.send(response)
-            else:
-                break      
-        print 'Sent request to client'
-        
-        #close sockets
-        serverSocket.close()
-        clientSocket.close()
-        print 'done\n------\n'
-        
-    except socket.error:
-        clientSocket.close()
-        print 'Error occurred. Socket closed.'
+    #wait and receive response. Then send response back to client
+    while 1:
+        response = serverSocket.recv(RECV_SIZE)
+        if(len(response) > 0):
+            clientSocket.send(response)
+        else:
+            break      
+    print 'Sent request to client'
+    
+    #close sockets
+    serverSocket.close()
+    clientSocket.close()
+    print 'done\n------\n'
         
 # -------
 if __name__ == '__main__':
