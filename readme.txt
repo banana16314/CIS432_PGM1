@@ -7,7 +7,7 @@ AUTHOR
 	Sze Yan Li
 
 DESCRIPTION
-    A bare-bones, multi-threaded web proxy with no exception handling or error checking.  
+    A bare-bones, multi-threaded web proxy with minimal exception handling and error checking. 
     
     - Assumes client input is always valid or correct.
     - Handles HTTP/1.1 and HTTP/1.0, GET, CONNECT
@@ -18,6 +18,9 @@ THANKS/CREDITS
         
     Python tutorial on socket exceptions
         - http://ilab.cs.byu.edu/python/socket/exceptions.html
+    
+    Python tutorial on threading
+        - http://www.tutorialspoint.com/python/python_multithreading.htm
 
 RELEVANT FILES
 	'proxy.py'  - contains web proxy program

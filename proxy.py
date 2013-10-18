@@ -27,10 +27,10 @@ MAX_Q = 200   #max number of connect requests to queue before refusing outside c
 def main():
 
     #host and port
-    host = ''       #TODO set to ix.cs.uoregon.edu? set blank for localhost.  
+    host = ''       #blank is default for localhost  
     port = 22591
     
-    #make a socket and bind to host and port  #socket.error, msg
+    #make a socket and bind to host and port
     try:      
         mainSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
         mainSocket.bind((host, port))  
@@ -62,8 +62,8 @@ def proxy_thread(clientSocket, clientAddress):
     port = 80 
     for line in request.split('\n'):    
         if line[0:4] == 'CONN': #CONNECT method has special port
-            s = re.split(' |:', line)   #split by white space or colon 
-            port = s[2] #should be 3nd element if there is a port
+            s = re.split(' |:', line)   #split by white space and colon 
+            port = s[2] #should be 3rd element if there is a port
             port = port.strip() 
             
         if line[0:4] == 'Host' or line[0:4] == 'From':
@@ -73,7 +73,6 @@ def proxy_thread(clientSocket, clientAddress):
     
     #create a socket, connect, and send request to server
     try:
-        #DEBUG print 'Connecting to', hostName, ':', port
         serverSocket = socket.create_connection((hostName, port))    #use create_connection to create a TCP socket because hostName can be non-numeric  
         serverSocket.sendall(request)
     
@@ -87,8 +86,7 @@ def proxy_thread(clientSocket, clientAddress):
                 
         #close sockets
         serverSocket.close()
-        clientSocket.close()
-        #DEBUG print 'Sent response to client\n------\n'       
+        clientSocket.close()      
     except socket.error, (value, message):  
         if serverSocket:
             serverSocket.close() 
