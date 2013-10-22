@@ -11,6 +11,7 @@ DESCRIPTION
     
     - Assumes client input is always valid or correct.
     - Handles HTTP/1.1 and HTTP/1.0, GET, CONNECT
+    - Debug shows opening and closing threads
     
     * Tested on IX on Firefox, Google Chrome.  Confirmed working for:
         - cs.uoregon.edu
