@@ -81,7 +81,7 @@ def proxy_thread(clientSocket, clientAddress):
             response = serverSocket.recv(RECV_SIZE)
             if(len(response) > 0):
                 clientSocket.sendall(response)
-            else:
+            else:   #if there is no more data, then break out of while-loop
                 break      
                 
         #close sockets

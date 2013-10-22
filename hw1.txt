@@ -22,6 +22,7 @@
  http://stackoverflow.com/questions/419163/what-does-if-name-main-do
  
  http://stackoverflow.com/questions/9692979/calculating-content-length-with-python
+ http://stackoverflow.com/questions/13293269/how-would-i-stop-a-while-loop-after-some-amount-of-time
  =========================
  Assignment 4: Multi-Threaded Web Proxy
 	In this assignment, you will develop a Web proxy. When your proxy receives an
