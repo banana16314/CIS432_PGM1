@@ -82,16 +82,17 @@ def proxy_thread(clientSocket, clientAddress):
         #wait and receive response. Then send response back to client
         while 1:    #while there is still data to send
             response = serverSocket.recv(RECV_SIZE)
-            recv_thusfar = recv_thusfar + len(response)
-
+            recv_thusfar = recv_thusfar + sys.getsizeof(response)
+            print recv_thusfar
             if(content_length == RECV_SIZE + 1):
                 #parse real content length
                 for line in response.split('\n'):    
                     if line[0:14] == 'Content-Length':
                         content_length = line.split(' ')[1]   #grab the content length
-                        content_length = content_length.strip()                        
+                        content_length = content_length.strip()       
+                        print 'cont', content_length
                         break
-            if(len(response) > 0 or recv_thusfar >= content_length):
+            if(len(response) > 0 or recv_thusfar < content_length):
                 clientSocket.sendall(response)
             else:
                 break      
