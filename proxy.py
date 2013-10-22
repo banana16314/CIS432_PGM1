@@ -44,18 +44,20 @@ def main():
     print 'The proxy is ready to receive\n'
     
     #Wait until request arrives.  Create a thread and dedicated socket for each HTTP request.
+    n = 0
     while 1:   
         clientSocket, clientAddress = mainSocket.accept()  
-        thread.start_new_thread(proxy_thread, (clientSocket, clientAddress))
+        thread.start_new_thread(proxy_thread, (clientSocket, clientAddress, n))
+        n = n + 1
         
     mainSocket.close()
 
 # ------ PROXY THREAD
-def proxy_thread(clientSocket, clientAddress):
+def proxy_thread(clientSocket, clientAddress, n):
+    print 'New Thread:',n
     
     #get HTTP request
     request = clientSocket.recv(RECV_SIZE)
-    print request
     
     #extract port (if necessary) and host name from HTTP request
     hostName = ''
@@ -79,14 +81,15 @@ def proxy_thread(clientSocket, clientAddress):
         #wait and receive response. Then send response back to client
         while 1:    #while there is still data to send
             response = serverSocket.recv(RECV_SIZE)
-            if response:    #if response is greater than 0. len(response) > 0 does the same thing
+            if(len(response) > 0):
                 clientSocket.sendall(response)
             else:   #if there is no more data, then break out of while-loop
                 break      
                 
         #close sockets
         serverSocket.close()
-        clientSocket.close()      
+        clientSocket.close() 
+        print 'End Thread:',n
     except socket.error, (value, message):  
         if serverSocket:
             serverSocket.close() 
