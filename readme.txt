@@ -11,6 +11,10 @@ DESCRIPTION
     
     - Assumes client input is always valid or correct.
     - Handles HTTP/1.1 and HTTP/1.0, GET, CONNECT
+    
+    * Tested on IX on Firefox, Google Chrome.  Confirmed working for:
+        - cs.uoregon.edu
+        - spur.uoregon.edu
 
 THANKS/CREDITS
 	Python documentation
@@ -21,6 +25,9 @@ THANKS/CREDITS
     
     Python tutorial on threading
         - http://www.tutorialspoint.com/python/python_multithreading.htm
+        
+    Python tutorial on web proxies
+        - http://luugiathuy.com/2011/03/simple-web-proxy-python/
 
 RELEVANT FILES
 	'proxy.py'  - contains web proxy program

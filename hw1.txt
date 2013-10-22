@@ -20,6 +20,8 @@
  http://stackoverflow.com/questions/1523427/python-what-is-the-common-header-format/1523621#1523621
  
  http://stackoverflow.com/questions/419163/what-does-if-name-main-do
+ 
+ http://stackoverflow.com/questions/9692979/calculating-content-length-with-python
  =========================
  Assignment 4: Multi-Threaded Web Proxy
 	In this assignment, you will develop a Web proxy. When your proxy receives an

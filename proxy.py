@@ -55,7 +55,7 @@ def proxy_thread(clientSocket, clientAddress):
     
     #get HTTP request
     request = clientSocket.recv(RECV_SIZE)
-    print request
+    #print request
     
     #extract port (if necessary) and host name from HTTP request
     hostName = ''
@@ -75,11 +75,24 @@ def proxy_thread(clientSocket, clientAddress):
     try:
         serverSocket = socket.create_connection((hostName, port))    #use create_connection to create a TCP socket because hostName can be non-numeric  
         serverSocket.sendall(request)
-    
+        
+        content_length = RECV_SIZE + 1 #one bigger than the possible RECV_SIZE (place-holder for first while loop)
+        recv_thusfar = 0    #bytes received thus far
+        
         #wait and receive response. Then send response back to client
         while 1:    #while there is still data to send
             response = serverSocket.recv(RECV_SIZE)
-            if(len(response) > 0):
+            recv_thusfar = recv_thusfar + len(response)
+            
+            if(content_length == RECV_SIZE + 1):
+                #parse real content length
+                for line in response.split('\n'):    
+                    if line[0:14] == 'Content-Length':
+                        content_length = line.split(' ')[1]   #grab the content length
+                        content_length = content_length.strip()
+                        print content_length
+                        break
+            if(len(response) > 0 or recv_thusfar >= content_length):
                 clientSocket.sendall(response)
             else:
                 break      
