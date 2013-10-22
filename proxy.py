@@ -76,6 +76,7 @@ def proxy_thread(clientSocket, clientAddress):
         serverSocket.sendall(request)
         
         content_length = RECV_SIZE + 1 #one bigger than the possible RECV_SIZE (place-holder for first while loop)
+        content_bool = 0    #flag for if Content-Length was found
         recv_thusfar = 0    #bytes received thus far
     
         #wait and receive response. Then send response back to client
@@ -89,10 +90,13 @@ def proxy_thread(clientSocket, clientAddress):
                 for line in response.split('\n'):    
                     if line[0:14] == 'Content-Length':
                         content_length = line.split(' ')[1]   #grab the content length
-                        content_length = content_length.strip()       
+                        content_length = content_length.strip()
+                        content_bool = 1
                         print 'cont', content_length
                         break
-            if(len(response) > 0 and recv_thusfar < content_length):
+            if(not content_bool and len(response) > 0): #no content length found, so based on if there's data, continue loop
+                clientSocket.sendall(response)
+            elif(content_bool and recv_thusfar < content_length):   #if content-length found, continue loop if data receives is less than the content length
                 clientSocket.sendall(response)
             else:
                 break   
