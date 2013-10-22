@@ -7,7 +7,7 @@ AUTHOR
 	Sze Yan Li
 
 DESCRIPTION
-    A bare-bones, multi-threaded web proxy with minimal exception handling and error checking. 
+    A bare-bones, multi-threaded web proxy with minimal exception handling and error checking.
     
     - Assumes client input is always valid or correct.
     - Handles HTTP/1.1 and HTTP/1.0, GET, CONNECT
@@ -15,6 +15,7 @@ DESCRIPTION
     * Tested on IX on Firefox, Google Chrome.  Confirmed working for:
         - cs.uoregon.edu
         - spur.uoregon.edu
+        - ix.cs.uoregon.edu
 
 THANKS/CREDITS
 	Python documentation
