@@ -16,14 +16,17 @@ import socket
 import thread
 import re
 import sys
+import logging
 
 # ##########################################
 
 # ------ CONSTANTS    
 RECV_SIZE = 4096    #buffer size of recv
 MAX_Q = 200   #max number of connect requests to queue before refusing outside connections
-  
+                    
 # ------ MAIN PROGRAM
+logging.basicConfig(level=logging.DEBUG, format='%[(levelname)s] %(message)s', )
+
 def main():
 
     #host and port
@@ -52,6 +55,7 @@ def main():
 
 # ------ PROXY THREAD
 def proxy_thread(clientSocket, clientAddress):
+    logging.debug('Starting', self.getName())
     
     #get HTTP request
     request = clientSocket.recv(RECV_SIZE)
@@ -74,42 +78,29 @@ def proxy_thread(clientSocket, clientAddress):
     try:
         serverSocket = socket.create_connection((hostName, port))    #use create_connection to create a TCP socket because hostName can be non-numeric  
         serverSocket.sendall(request)
-        
-        content_length = RECV_SIZE + 1 #one bigger than the possible RECV_SIZE (place-holder for first while loop)
-        content_bool = 0    #flag for if Content-Length was found
-        recv_thusfar = 0    #bytes received thus far
     
         #wait and receive response. Then send response back to client
         while 1:    #while there is still data to send
             response = serverSocket.recv(RECV_SIZE)
-            recv_thusfar = recv_thusfar + len(response)
-            
-            print 'recv', recv_thusfar
-            if(content_length == RECV_SIZE + 1):
-                #parse real content length
-                for line in response.split('\n'):    
-                    if line[0:14] == 'Content-Length':
-                        content_length = line.split(' ')[1]   #grab the content length
-                        content_length = content_length.strip()
-                        content_bool = 1
-                        print 'cont', content_length
-                        break
-            if(not content_bool and len(response) > 0): #no content length found, so based on if there's data, continue loop
+            if(len(response) > 0):
                 clientSocket.sendall(response)
-            elif(content_bool and recv_thusfar < content_length):   #if content-length found, continue loop if data receives is less than the content length
-                clientSocket.sendall(response)
-            else:
-                break   
+            else:   #if there is no more data, then break out of while-loop
+                break      
                 
         #close sockets
         serverSocket.close()
-        clientSocket.close()      
+        clientSocket.close()   
+        #close thread
+        logging.debug('Ending')
+        thread.exit()
     except socket.error, (value, message):  
         if serverSocket:
             serverSocket.close() 
         if clientSocket:
             clientSocket.close() 
         print 'Error:', message
+        logging.debug('Ending')
+        thread.exit()
         sys.exit(1)
         
 # -------
