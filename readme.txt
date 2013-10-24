@@ -35,7 +35,7 @@ THANKS/CREDITS
         - http://luugiathuy.com/2011/03/simple-web-proxy-python/
 
 RELEVANT FILES
-	'proxy.py'  - contains web proxy program
+    'proxy.py'  - contains web proxy program
 	
 SETUP
     Set up your proxy settings in the browser with the following:
