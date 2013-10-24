@@ -4,7 +4,7 @@
 # ################################
 
 AUTHOR
-	Sze Yan Li
+    Sze Yan Li
 
 DESCRIPTION
     A simple multi-threaded web proxy
@@ -22,7 +22,7 @@ DESCRIPTION
         - etc
 
 THANKS/CREDITS
-	Python documentation
+    Python documentation
         - http://docs.python.org/2/howto/sockets.html
         
     Python tutorial on socket exceptions
